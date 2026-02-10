@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Авторы курсов - Каталог курсов</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        nav { margin: 20px 0; padding: 10px; background: #f0f0f0; border-radius: 5px; }
+        nav a { margin: 0 15px; text-decoration: none; color: #2c3e50; font-weight: bold; }
+        nav a:hover { color: #3498db; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        .author-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin-top: 30px; }
+        .author-card { border: 1px solid #ddd; padding: 25px; border-radius: 10px; background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .author-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .author-card h3 { color: #2980b9; margin-top: 0; }
+        .author-card p { color: #555; line-height: 1.6; }
+        .btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; }
+        .btn:hover { background: #2980b9; }
+        .stats { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Авторы курсов</h1>
+        
+        <nav>
+            <a href='/'>🏠 Главная</a>
+            <a href='/courses/'>📖 Курсы</a>
+            <a href='/authors/'>👥 Авторы</a>
+            <a href='/info/'>ℹ️ О проекте</a>
+        </nav>
+        
+        <div class="stats">
+            <p>📊 Всего авторов в каталоге: <strong>{{ authors|length }}</strong></p>
+            <p>✨ Каждый автор - опытный разработчик с уникальными знаниями</p>
+        </div>
+        
+        <div class="author-list">
+            {% if authors %}
+                {% for author in authors %}
+                <div class="author-card">
+                    <h3>{{ author.name }}</h3>
+                    <p><strong>ID автора:</strong> {{ author.id }}</p>
+                    <p>{{ author.bio|truncatechars:150 }}</p>
+                    <a href='/authors/{{ author.id }}/' class="btn">📚 Смотреть курсы автора</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px;">
+                    <p style="font-size: 18px; color: #7f8c8d;">Авторы временно недоступны</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3>ℹ️ Информация</h3>
+            <p>На этой странице представлены все авторы курсов нашего каталога. Нажмите на кнопку "Смотреть курсы автора", чтобы увидеть все курсы, созданные конкретным автором.</p>
+        </div>
+    </div>
+</body>
+</html>
