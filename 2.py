@@ -182,10 +182,196 @@ def normalize_phone(phone: str) -> str:
     return f"+{digits}"
 
 
+# ===== Функции для ввода с клавиатуры =====
+def input_validate_login():
+    """Ввод и проверка логина с клавиатуры"""
+    print("\n--- Проверка логина ---")
+    print("\nГотовые примеры для тестирования:")
+    print("  Корректные: User123, john_doe, admin_1, Python123")
+    print("  Некорректные: 123user (начинается с цифры), user_ (заканчивается _), a (слишком короткий)")
+
+    login = input("\nВведите логин для проверки: ")
+    result = validate_login(login)
+    print(f"Результат: {'✓ Корректный' if result else '✗ Некорректный'} логин")
+    return result
+
+
+def input_find_dates():
+    """Ввод текста и поиск дат"""
+    print("\n--- Поиск дат в тексте ---")
+    print("\nГотовые примеры для тестирования:")
+    print("  Текст 1: Сегодня 10.02.2024, а завтра 11-02-24. Встреча 5/12/2023")
+    print("  Текст 2: Срок сдачи 25.12.2023 и 01-01-24. План на 30/02/2023")
+
+    text = input("\nВведите текст для поиска дат: ")
+    dates = find_dates(text)
+    if dates:
+        print(f"Найденные даты: {dates}")
+    else:
+        print("Даты не найдены")
+    return dates
+
+
+def input_parse_log():
+    """Ввод строки лога и её парсинг"""
+    print("\n--- Парсинг лога ---")
+    print("Формат: YYYY-MM-DD HH:MM:SS LEVEL key=value key=value ...")
+    print("\nГотовые примеры:")
+    print("  1. 2024-02-10 14:23:01 INFO user=ada action=login ip=192.168.1.15")
+    print("  2. 2024-02-10 15:30:45 ERROR user=bob action=upload file=doc.pdf size=1024")
+    print("  3. 2024-02-10 16:15:22 WARNING user=charlie action=delete status=partial")
+
+    log_line = input("\nВведите строку лога: ")
+    result = parse_log(log_line)
+    if result:
+        print("Результат парсинга:")
+        for key, value in result.items():
+            print(f"  {key}: {value}")
+    else:
+        print("Не удалось распарсить лог (недостаточно данных)")
+    return result
+
+
+def input_validate_password():
+    """Ввод и проверка пароля"""
+    print("\n--- Проверка пароля ---")
+    print("Требования: минимум 8 символов, заглавная буква, строчная буква, цифра, спецсимвол (!@#$%^&*)")
+    print("\nГотовые примеры:")
+    print("  Корректные: Pass123!, StrongP@ss1, MyP@ssw0rd, Test123#")
+    print("  Некорректные: password (нет заглавных и спецсимволов), PASSWORD123 (нет строчных), Pass! (короткий)")
+
+    password = input("\nВведите пароль для проверки: ")
+    result = validate_password(password)
+    if result:
+        print("✓ Пароль соответствует требованиям")
+    else:
+        print("✗ Пароль НЕ соответствует требованиям")
+    return result
+
+
+def input_validate_email():
+    """Ввод email и проверка с доменами"""
+    print("\n--- Проверка email ---")
+    print("Допустимые домены: gmail.com, yandex.ru, edu.ru, mail.ru, outlook.com")
+    print("\nГотовые примеры:")
+    print("  Корректные: user@gmail.com, student@edu.ru, test@yandex.ru")
+    print("  Некорректные: invalid@mail.ru (домен не в списке), bad-email (неверный формат)")
+
+    email = input("\nВведите email для проверки: ")
+
+    # Список допустимых доменов
+    valid_domains = ['gmail.com', 'yandex.ru', 'edu.ru', 'mail.ru', 'outlook.com']
+
+    result = validate_email_with_domains(email, valid_domains)
+    if result:
+        print(f"✓ Email '{email}' корректен и домен допустим")
+    else:
+        print(f"✗ Email '{email}' НЕ корректен или домен не в списке допустимых")
+    return result
+
+
+def input_normalize_phone():
+    """Ввод и нормализация телефонного номера"""
+    print("\n--- Нормализация телефона ---")
+    print("Примеры форматов: 8(999)123-45-67, +7 999 123 45 67, 89991234567")
+    print("\nГотовые примеры:")
+    print("  1. 8(999)123-45-67 -> +79991234567")
+    print("  2. +7 999 123 45 67 -> +79991234567")
+    print("  3. 89991234567 -> +79991234567")
+    print("  4. 8-999-123-45-67 -> +79991234567")
+
+    phone = input("\nВведите телефонный номер: ")
+    normalized = normalize_phone(phone)
+    print(f"Исходный: {phone}")
+    print(f"Нормализованный: {normalized}")
+    return normalized
+
+
+def show_examples():
+    """Показать все готовые примеры"""
+    print("\n" + "=" * 60)
+    print("ГОТОВЫЕ ПРИМЕРЫ ДЛЯ ВСЕХ ФУНКЦИЙ")
+    print("=" * 60)
+
+    print("\n1. Валидация логина:")
+    print("   Корректные: User123, john_doe, admin_1, Python123")
+    print("   Некорректные: 123user (начинается с цифры), user_ (заканчивается _), a (слишком короткий)")
+
+    print("\n2. Поиск дат в тексте:")
+    print("   Текст 1: Сегодня 10.02.2024, а завтра 11-02-24. Встреча 5/12/2023")
+    print("   Текст 2: Срок сдачи 25.12.2023 и 01-01-24. План на 30/02/2023")
+    print("   Текст 3: Важные даты: 1.1.23, 31/12/2024, 15-05-22")
+
+    print("\n3. Парсинг логов:")
+    print("   1. 2024-02-10 14:23:01 INFO user=ada action=login ip=192.168.1.15")
+    print("   2. 2024-02-10 15:30:45 ERROR user=bob action=upload file=doc.pdf size=1024")
+    print("   3. 2024-02-10 16:15:22 WARNING user=charlie action=delete status=partial")
+
+    print("\n4. Проверка пароля:")
+    print("   Корректные: Pass123!, StrongP@ss1, MyP@ssw0rd, Test123#")
+    print("   Некорректные: password (нет заглавных и спецсимволов), PASSWORD123 (нет строчных), Pass! (короткий)")
+
+    print("\n5. Проверка email (допустимые домены: gmail.com, yandex.ru, edu.ru, mail.ru, outlook.com):")
+    print("   Корректные: user@gmail.com, student@edu.ru, test@yandex.ru")
+    print("   Некорректные: invalid@mail.ru (домен не в списке), bad-email (неверный формат)")
+
+    print("\n6. Нормализация телефона:")
+    print("   1. 8(999)123-45-67 -> +79991234567")
+    print("   2. +7 999 123 45 67 -> +79991234567")
+    print("   3. 89991234567 -> +79991234567")
+    print("   4. 8-999-123-45-67 -> +79991234567")
+    print("   5. 9991234567 -> +79991234567")
+
+
+def interactive_menu():
+    """Интерактивное меню для выбора функций"""
+    while True:
+        print("\n" + "=" * 60)
+        print("ВЫБЕРИТЕ ФУНКЦИЮ ДЛЯ ТЕСТИРОВАНИЯ:")
+        print("=" * 60)
+        print("1. Проверка логина")
+        print("2. Поиск дат в тексте")
+        print("3. Парсинг лога")
+        print("4. Проверка пароля")
+        print("5. Проверка email")
+        print("6. Нормализация телефона")
+        print("7. Показать все готовые примеры")
+        print("8. Запустить все тесты (автоматические)")
+        print("0. Выход")
+        print("-" * 60)
+
+        choice = input("Ваш выбор (0-8): ").strip()
+
+        if choice == '1':
+            input_validate_login()
+        elif choice == '2':
+            input_find_dates()
+        elif choice == '3':
+            input_parse_log()
+        elif choice == '4':
+            input_validate_password()
+        elif choice == '5':
+            input_validate_email()
+        elif choice == '6':
+            input_normalize_phone()
+        elif choice == '7':
+            show_examples()
+        elif choice == '8':
+            test_all_functions()
+        elif choice == '0':
+            print("Программа завершена.")
+            break
+        else:
+            print("Неверный выбор. Пожалуйста, введите число от 0 до 8.")
+
+        if choice != '0':
+            input("\nНажмите Enter для продолжения...")
+
+
 # ===== Тестирование функций =====
 def test_all_functions():
     """Тестирование всех функций"""
-    print("=== Тестирование функций ===")
+    print("\n=== Тестирование функций ===")
 
     # 1. Тест валидации логина
     print("\n1. Валидация логина:")
@@ -230,10 +416,14 @@ def test_all_functions():
 
 # ===== Пример использования =====
 if __name__ == "__main__":
-    # Запуск тестов
-    test_all_functions()
+    print("=" * 60)
+    print("ПРОГРАММА ДЛЯ ТЕСТИРОВАНИЯ ФУНКЦИЙ")
+    print("=" * 60)
 
-    # Примеры использования отдельных функций
+    # Запуск интерактивного меню
+    interactive_menu()
+
+    # Примеры использования отдельных функций (оставлено для справки)
     print("\n=== Примеры использования ===")
 
     # Пример 1: Валидация логина
