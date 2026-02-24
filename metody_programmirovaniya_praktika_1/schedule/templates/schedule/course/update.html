@@ -1,0 +1,14 @@
+{% extends 'schedule/base.html' %}
+
+{% block content %}
+<h1>Редактировать курс: {{ course.name }}</h1>
+
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-warning">Обновить</button>
+        <a href="{% url 'schedule:course_index' %}" class="btn">Отмена</a>
+    </form>
+</div>
+{% endblock %}

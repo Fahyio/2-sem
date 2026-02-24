@@ -1,0 +1,35 @@
+{% extends 'schedule/base.html' %}
+
+{% block content %}
+<h1>Информация о преподавателе</h1>
+
+<div class="card">
+    <h2>{{ teacher.get_full_name }}</h2>
+    <p><strong>Email:</strong> {{ teacher.email }}</p>
+    <p><strong>Телефон:</strong> {{ teacher.phone|default:"-" }}</p>
+    <p><strong>Дата найма:</strong> {{ teacher.hire_date }}</p>
+    <p><strong>Активен:</strong> {% if teacher.is_active %}Да{% else %}Нет{% endif %}</p>
+
+    {% if teacher.info %}
+        <h3>Дополнительная информация</h3>
+        <p><strong>Образование:</strong> {{ teacher.info.education }}</p>
+        <p><strong>Специализация:</strong> {{ teacher.info.specialization }}</p>
+        <p><strong>Опыт работы:</strong> {{ teacher.info.experience_years }} лет</p>
+        <p><strong>Кабинет:</strong> {{ teacher.info.office_number|default:"-" }}</p>
+        <p><strong>Часы консультаций:</strong> {{ teacher.info.consultation_hours|default:"-" }}</p>
+        <p><strong>Биография:</strong> {{ teacher.info.biography|linebreaks }}</p>
+    {% endif %}
+
+    <h3>Курсы преподавателя</h3>
+    <ul>
+        {% for course in teacher.courses.all %}
+        <li>{{ course.name }} ({{ course.get_level_display }})</li>
+        {% empty %}
+        <li>Нет курсов</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'schedule:teacher_index' %}" class="btn">Назад к списку</a>
+    <a href="{% url 'schedule:teacher_update' teacher.pk %}" class="btn btn-warning">Редактировать</a>
+</div>
+{% endblock %}

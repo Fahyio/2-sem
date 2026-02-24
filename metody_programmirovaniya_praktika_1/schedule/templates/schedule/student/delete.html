@@ -1,0 +1,15 @@
+{% extends 'schedule/base.html' %}
+
+{% block content %}
+<h1>Удаление студента</h1>
+
+<div class="card">
+    <p>Вы уверены, что хотите удалить студента "{{ student.get_full_name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a href="{% url 'schedule:student_index' %}" class="btn">Отмена</a>
+    </form>
+</div>
+{% endblock %}

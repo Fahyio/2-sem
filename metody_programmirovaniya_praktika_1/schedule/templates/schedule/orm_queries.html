@@ -1,0 +1,54 @@
+{% extends 'schedule/base.html' %}
+
+{% block content %}
+<h1>ORM-запросы</h1>
+
+<div class="card">
+    <h2>1. Все студенты курса</h2>
+    {% if first_course %}
+        <p><strong>Курс:</strong> {{ first_course.name }}</p>
+        <ul>
+            {% for student in course_students %}
+            <li>{{ student.get_full_name }} ({{ student.email }})</li>
+            {% empty %}
+            <li>На этом курсе нет студентов</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет курсов для отображения</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>2. Преподаватели, у которых больше 1 курса</h2>
+    <ul>
+        {% for teacher in teachers_with_multiple_courses %}
+        <li>{{ teacher.get_full_name }} - {{ teacher.course_count }} курсов</li>
+        {% empty %}
+        <li>Нет преподавателей с несколькими курсами</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h2>3. Студенты без курсов</h2>
+    <ul>
+        {% for student in students_without_courses %}
+        <li>{{ student.get_full_name }} ({{ student.email }})</li>
+        {% empty %}
+        <li>Все студенты записаны на курсы</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h2>4. Преподаватели без профиля (TeacherInfo)</h2>
+    <ul>
+        {% for teacher in teachers_without_profile %}
+        <li>{{ teacher.get_full_name }} ({{ teacher.email }})</li>
+        {% empty %}
+        <li>У всех преподавателей есть профили</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

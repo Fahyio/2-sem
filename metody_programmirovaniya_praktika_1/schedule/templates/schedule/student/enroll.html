@@ -1,0 +1,41 @@
+{% extends 'schedule/base.html' %}
+
+{% block content %}
+<h1>Запись студента на курсы</h1>
+
+<div class="card">
+    <h2>{{ student.get_full_name }}</h2>
+
+    <h3>Текущие курсы:</h3>
+    <ul>
+        {% for course in student.courses.all %}
+        <li>
+            {{ course.name }}
+            <form method="post" action="{% url 'schedule:student_unenroll' student.pk course.pk %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Отписать студента от курса?')">Отписаться</button>
+            </form>
+        </li>
+        {% empty %}
+        <li>Нет записей на курсы</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Доступные курсы для записи:</h3>
+    <form method="post">
+        {% csrf_token %}
+        <select name="course" required>
+            <option value="">Выберите курс</option>
+            {% for course in courses %}
+            <option value="{{ course.id }}">
+                {{ course.name }} - {{ course.teacher.get_full_name|default:"Нет преподавателя" }}
+                (свободно {{ course.max_students|add:"-"|add:course.students.count }}/{{ course.max_students }})
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-success">Записаться</button>
+    </form>
+
+    <a href="{% url 'schedule:student_index' %}" class="btn">Назад к списку</a>
+</div>
+{% endblock %}
